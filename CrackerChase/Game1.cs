@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
-using System;
+
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace CrackerChase
 {
@@ -14,6 +14,12 @@ namespace CrackerChase
     /// </summary>
     public class Game1 : Game
     {
+        enum GameStates
+        {
+            StartScreen, PlayingScreen
+        }
+
+        GameStates currentState;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -58,10 +64,10 @@ namespace CrackerChase
             timer = 600;
             score = 0;
 
-           
+
         }
 
-      
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -85,6 +91,7 @@ namespace CrackerChase
         /// </summary>
         protected override void LoadContent()
         {
+            currentState = GameStates.PlayingScreen;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -130,15 +137,21 @@ namespace CrackerChase
         }
 
 
-     
 
-        
+
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
+        {
+            updateGamePlay(gameTime);
+            base.Update(gameTime);
+        }
+
+        private void updateGamePlay(GameTime gameTime)
         {
             KeyboardState keys = Keyboard.GetState();
 
@@ -214,12 +227,10 @@ namespace CrackerChase
                     Exit();
                 }
             }
-
-            base.Update(gameTime);
         }
 
-        
-        
+
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -227,7 +238,13 @@ namespace CrackerChase
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            drawGamePlay();
 
+            base.Draw(gameTime);
+        }
+
+        private void drawGamePlay()
+        {
             spriteBatch.Begin();
 
             foreach (Sprite s in gameSprites)
@@ -241,9 +258,6 @@ namespace CrackerChase
             spriteBatch.DrawString(messageFont, messageString, statusPos, Color.Red);
 
             spriteBatch.End();
-
-
-            base.Draw(gameTime);
         }
     }
 }

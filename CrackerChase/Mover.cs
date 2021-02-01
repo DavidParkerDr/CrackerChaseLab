@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CrackerChase
 {
+    // This is a comment...
     class Mover : Sprite
     {
         public void StartMovingUp()
